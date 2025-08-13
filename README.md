@@ -10,7 +10,7 @@ Python script to connect Gmail to Sheets and parse job application confirmations
 5. Grab Google Sheet key from your Google Sheets URL:  
    `https://docs.google.com/spreadsheets/d/[KEY]/edit?gid=0#gid=0`
 6. Place key in a `.env` file under variable `JOB_APPS_SHEET_ID`.
-7. Run Python file.
+7. Run Python file after pip installing requirements.
 8. Sign in with the account with Gmail and Sheets to parse.
 9. Give time to allow update on your sheet.
 10. Voila

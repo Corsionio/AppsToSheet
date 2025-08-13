@@ -3,7 +3,7 @@
 Python script to connect gmail to sheets and parse job application confirmations and track jobs applied to.
 
 Steps to run and use:
-Setup through Google Cloud Platform.
+  Setup through Google Cloud Platform.
   Connect gmail API and google sheets API through GCP project
   Configure OAuth and grab Json file after configuration, place in project folder on desktop
   Create a google sheet

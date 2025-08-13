@@ -13,4 +13,4 @@ Python script to connect Gmail to Sheets and parse job application confirmations
 7. Run Python file.
 8. Sign in with the account with Gmail and Sheets to parse.
 9. Give time to allow update on your sheet.
-10. Voila!
+10. Voila

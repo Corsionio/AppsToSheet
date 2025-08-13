@@ -11,11 +11,9 @@ from google.auth.transport.requests import Request
 import pickle
 
 # ====== CONFIG ======
-SHEET_ID = os.getenv("JOB_APPS_SHEET_ID")  # or paste the string directly
+SHEET_ID = os.getenv("JOB_APPS_SHEET_ID")
 SHEET_RANGE = "Sheet1!A:G"  # adjust if your tab/range differs
 
-# Gmail search query (tweak to your tastes/locale)
-# Tip: add a Gmail label like label:jobapps to make this ultra-reliable.
 GMAIL_QUERY = r'''
 newer_than:90d
 (subject:("application received" OR "application confirmation" OR "thank you for applying" OR "thanks for applying")
@@ -43,7 +41,6 @@ def get_service(api_name, api_version, scopes):
         else:
             flow = InstalledAppFlow.from_client_secrets_file("credentials.json", scopes)
             try:
-                # Try local server on a fixed, commonly-open port
                 creds = flow.run_local_server(
                     host="localhost",
                     port=8080,
@@ -53,7 +50,6 @@ def get_service(api_name, api_version, scopes):
                 )
             except Exception as e:
                 print(f"[Auth warning] Local redirect failed ({e}). Falling back to copy-paste flow.")
-                # Rock-solid fallback: paste code from browser into the terminal
                 creds = flow.run_console()
 
         with open(token_file, "wb") as f:
@@ -77,7 +73,6 @@ def get_existing_message_ids(svc):
     rows = resp.get("values", []) or []
     if not rows:
         return set()
-    # assumes header row present; "Message-ID" is column G (index 6)
     ids = set()
     for r in rows[1:]:
         if len(r) >= 7 and r[6]:
@@ -108,7 +103,6 @@ def _extract_company_and_role(subject, sender):
     """
     Very rough heuristics—customize for your inbox patterns.
     """
-    # Try role between quotes or before a dash
     role = ""
     m = re.search(r'["“](.+?)["”]', subject)
     if m: role = m.group(1)
@@ -133,7 +127,7 @@ def _gmail_thread_link(thread_id):
     return f"https://mail.google.com/mail/u/0/#all/{thread_id}"
 
 def _parse_message_dt(headers):
-    # RFC2822 date → local time
+    # RFC2822 date -> local time
     dt_hdr = _get_header(headers, "Date")
     try:
         dt = parsedate_to_datetime(dt_hdr)
